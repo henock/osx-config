@@ -7,7 +7,7 @@ tBlack="$(tput setaf 0)"
 tOrange="$(tput setaf 166)"
 
 parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ on (\1)/'
+    git branch 2> /dev/null | grep '^*' |  sed 's/* \(.*\)/ (\1)/g'
 }
 
 show_non_zero_response_code(){
@@ -18,13 +18,14 @@ show_non_zero_response_code(){
 }
 
 
-PS1='\n\[${tBold}\]'						          # New line and start bold
-PS1+='\[${tOrange}\]\u \[${tBlack}\]at '	# username in orange
-PS1+='\[${tBlue}\]\h '						        # host in blue   
-PS1+='\[${tBlack}\]in \[${tGreen}\]\w'		# working dir in green
-PS1+='$(show_non_zero_response_code)'		  # If response code from last command is not zero then echo Non zero response code=<response code>
-PS1+='\[${tBlack}\]$(parse_git_branch)'		# Show git branch if present
-PS1+='\[${tReset}\]\n\$ '					        # echo $ iether way	
+PS1='\n\[${tBold}\]'                        # New line and start bold
+PS1+='\[${tOrange}\]\u \[${tBlack}\]at '    # username in orange
+PS1+='\[${tBlue}\]\h '                      # host in blue   
+PS1+='\[${tBlack}\]in \[${tGreen}\]\w'      # working dir in green
+PS1+='$(show_non_zero_response_code)'       # If response code from last command is not zero then echo Non zero response code=<response code>
+PS1+='\[${tBlack}\]$(parse_git_branch)'     # Show git branch if present
+PS1+='\[${tReset}\]\n\$ '                   # echo $ iether way	
+	
 
 
 
