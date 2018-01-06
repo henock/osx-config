@@ -1,4 +1,4 @@
-# Prompt outputs the response code of the last command
+# Prompt outputs the response code of the last command if non zero
 PS1='\W$( RET=$?; if [ $RET != 0 ] ; then echo "\[\033[0;91m\] NonZeroResponseCode: $RET \[\033[m\]"; fi ) \$ '
 
 #Adding colors to console output
