@@ -7,14 +7,14 @@ tBlack="$(tput setaf 0)"
 tOrange="$(tput setaf 166)"
 
 parse_git_branch() {
-    git branch 2> /dev/null | grep '^*' |  sed 's/* \(.*\)/ (\1)/g'
+   git branch 2> /dev/null | grep '^*' |  sed 's/* \(.*\)/ (\1)/g'
 }
 
 show_non_zero_response_code(){
-	RETURN_CODE=$?; 	
-	if [[ $RETURN_CODE != 0 ]] ; then 
-		echo -e "\n${tRed}** Non zero response code=${RETURN_CODE} **"; 
-	fi
+   RETURN_CODE=$?;
+   if [[ $RETURN_CODE != 0 ]] ; then 
+      echo -e "\n${tRed}** Non zero response code=${RETURN_CODE} **"; 
+   fi
 }
 
 
@@ -24,9 +24,7 @@ PS1+='\[${tBlue}\]\h '                      # host in blue
 PS1+='\[${tBlack}\]in \[${tGreen}\]\w'      # working dir in green
 PS1+='$(show_non_zero_response_code)'       # If response code from last command is not zero then echo Non zero response code=<response code>
 PS1+='\[${tBlack}\]$(parse_git_branch)'     # Show git branch if present
-PS1+='\[${tReset}\]\n\$ '                   # echo $ iether way	
-	
-
+PS1+='\[${tReset}\]\n\$ '                   # echo $ iether way   
 
 
 #Adding colors to console output
