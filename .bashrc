@@ -1,12 +1,41 @@
-# Prompt outputs the response code of the last command if non zero
-PS1='\W$( RET=$?; if [ $RET != 0 ] ; then echo "\[\033[0;91m\] NonZeroResponseCode: $RET \[\033[m\]"; fi ) \$ '
+tRed="$(tput setaf 196)"
+tBold="$(tput bold)"
+tBlue="$(tput setaf 040)"
+tReset="$(tput sgr0)"
+tGreen="$(tput setaf 034)"
+tBlack="$(tput setaf 0)"
+tOrange="$(tput setaf 166)"
+
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ on (\1)/'
+}
+
+show_non_zero_response_code(){
+	RETURN_CODE=$?; 	
+	if [[ $RETURN_CODE != 0 ]] ; then 
+		echo -e "\n${tRed}** Non zero response code=${RETURN_CODE} **"; 
+	fi
+}
+
+
+PS1='\n\[${tBold}\]'						          # New line and start bold
+PS1+='\[${tOrange}\]\u \[${tBlack}\]at '	# username in orange
+PS1+='\[${tBlue}\]\h '						        # host in blue   
+PS1+='\[${tBlack}\]in \[${tGreen}\]\w'		# working dir in green
+PS1+='$(show_non_zero_response_code)'		  # If response code from last command is not zero then echo Non zero response code=<response code>
+PS1+='\[${tBlack}\]$(parse_git_branch)'		# Show git branch if present
+PS1+='\[${tReset}\]\n\$ '					        # echo $ iether way	
+
+
 
 #Adding colors to console output
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
 
 
-# Aliases
+MAVEN_OPTS="-Xms256m -Xmx512m"
+
+
 alias cll='clear && ll'
 alias clla='clear && lla'
 alias ll='ls -ltr'
@@ -35,14 +64,5 @@ alias dokpa='docker ps -a'
 alias mci='mvn clean install'
 alias mct='mvn clean test'
 
-
 # Create links to alias for all projects
-for i in $(ls /Users/henock/Documents/code); do  alias cd-$i='cd /Users/henock/Documents/code/'$i; done
-
-
-#Adding colors to console output
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
-
-
-MAVEN_OPTS="-Xms256m -Xmx512m"
+for i in $(ls /Users/henock/Documents/code); do  alias cd-$i='cd /Users/henock/Documents/code/'$i; done	
